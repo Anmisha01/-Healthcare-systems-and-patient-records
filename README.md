@@ -1,4 +1,4 @@
-# Practical Cryptography
+# Healthcate System and Patient Records
 
 Small example project demonstrating simple authentication, symmetric/asymmetric crypto helpers, and a PyQt5 login UI.
 
