@@ -53,25 +53,28 @@ class TestWorkflowJobExecution:
 
     def test_pytest_runs_successfully(self, project_root):
         """Verify pytest runs and reports results."""
-        # This simulates the 'Run tests' step
+        # This simulates the 'Run tests' step - exclude GUI tests in headless environment
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=short"],
+            [sys.executable, "-m", "pytest", "tests/", "-v", "--tb=short", 
+             "-k", "not test_gui"],
             capture_output=True,
             text=True,
-            cwd=project_root
+            cwd=project_root,
+            env={**os.environ, 'QT_QPA_PLATFORM': 'offscreen'}
         )
         
         # Tests should run and complete
-        assert "passed" in result.stdout or "failed" in result.stdout or "error" in result.stdout, \
+        assert "passed" in result.stdout or "failed" in result.stdout or "error" in result.stdout or "skipped" in result.stdout, \
             f"No test results found:\n{result.stdout}\n{result.stderr}"
 
     def test_pytest_exit_code_indicates_status(self, project_root):
         """Verify pytest exit code properly indicates test status."""
         result = subprocess.run(
-            [sys.executable, "-m", "pytest", "tests/", "-x"],
+            [sys.executable, "-m", "pytest", "tests/", "-x", "-k", "not test_gui"],
             capture_output=True,
             text=True,
-            cwd=project_root
+            cwd=project_root,
+            env={**os.environ, 'QT_QPA_PLATFORM': 'offscreen'}
         )
         
         # Exit code should be 0 (success) or non-zero (failure), not error
