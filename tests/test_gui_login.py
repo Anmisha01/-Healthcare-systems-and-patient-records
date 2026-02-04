@@ -1,14 +1,15 @@
-import pytest
 import os
 
-# Skip this module if no real display (CI environment)
-if not os.environ.get('CI') and not os.environ.get('DISPLAY'):
-    pytest.skip("GUI tests require display", allow_module_level=True)
+import pytest
+
+# Skip this entire module for CI environments - GUI tests can't run headless
+pytest.skip("GUI tests require display", allow_module_level=True)
 
 pytest.importorskip("PyQt5")
 
-from main import LoginDialog
 from PyQt5 import QtWidgets
+
+from main import LoginDialog
 
 
 @pytest.mark.skip(reason="GUI tests require display server - run manually")

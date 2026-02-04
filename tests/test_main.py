@@ -1,6 +1,7 @@
-import sys
-import pytest
 import os
+import sys
+
+import pytest
 
 # Skip entire module - it tests GUI functionality which can't run in headless CI
 pytest.skip("GUI tests require display", allow_module_level=True)
@@ -17,6 +18,7 @@ def test_main_user_cancels(monkeypatch):
     class DummyApp:
         def __init__(self, argv):
             pass
+
         def exec_(self):
             return 0
 
@@ -60,6 +62,7 @@ def test_main_invalid_credentials_shows_error(monkeypatch):
     class DummyApp:
         def __init__(self, argv):
             pass
+
         def exec_(self):
             return 0
 
@@ -96,6 +99,7 @@ def test_main_success_shows_welcome_and_exits(monkeypatch):
     class DummyApp:
         def __init__(self, argv):
             pass
+
         def exec_(self):
             return 0
 
@@ -108,7 +112,9 @@ def test_main_success_shows_welcome_and_exits(monkeypatch):
     monkeypatch.setattr(main, "LoginDialog", DummyLogin)
 
     # fake authenticate returns a user dict with role
-    monkeypatch.setattr(main, "authenticate", lambda u, p: ({"role": "doctor"}, object()))
+    monkeypatch.setattr(
+        main, "authenticate", lambda u, p: ({"role": "doctor"}, object())
+    )
 
     info_args = {}
 
@@ -117,7 +123,9 @@ def test_main_success_shows_welcome_and_exits(monkeypatch):
         info_args["text"] = text
 
     monkeypatch.setattr(QtWidgets.QMessageBox, "information", staticmethod(fake_info))
-    monkeypatch.setattr(QtWidgets.QMessageBox, "critical", staticmethod(lambda *a, **k: None))
+    monkeypatch.setattr(
+        QtWidgets.QMessageBox, "critical", staticmethod(lambda *a, **k: None)
+    )
 
     # intercept sys.exit so test doesn't exit
     exits = {}

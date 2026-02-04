@@ -1,24 +1,28 @@
 import base64
+
 import pytest
 from Crypto.PublicKey import RSA
 from Crypto.Random import get_random_bytes
 
 from main import (
-    sha256_hash,
-    pad,
-    unpad,
-    aes_encrypt,
     aes_decrypt,
-    rsa_encrypt_key,
+    aes_encrypt,
+    pad,
     rsa_decrypt_key,
+    rsa_encrypt_key,
+    sha256_hash,
     sign_data,
+    unpad,
     verify_signature,
 )
 
 
 def test_sha256_hash():
     # known SHA256("abc")
-    assert sha256_hash("abc") == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    assert (
+        sha256_hash("abc")
+        == "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+    )
 
 
 def test_pad_unpad_roundtrip():

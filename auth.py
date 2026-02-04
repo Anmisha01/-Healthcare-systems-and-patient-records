@@ -1,5 +1,6 @@
 from crypto_utils import sha256_hash
-from data_store import USERS, PRIVATE_KEYS
+from data_store import PRIVATE_KEYS, USERS
+
 
 def authenticate(username: str, password: str):
     user = USERS.get(username)

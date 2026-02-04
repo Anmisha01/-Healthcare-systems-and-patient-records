@@ -1,6 +1,7 @@
 import pytest
-from main import authenticate, USERS, PRIVATE_KEYS
 from Crypto.PublicKey import RSA
+
+from main import PRIVATE_KEYS, USERS, authenticate
 
 
 def test_auth_success():

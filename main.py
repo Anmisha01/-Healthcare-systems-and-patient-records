@@ -1,13 +1,14 @@
-import sys
 import os
+import sys
 
 # Set Qt platform to offscreen if no display
-if not os.environ.get('DISPLAY') and not os.environ.get('QT_QPA_PLATFORM'):
-    os.environ['QT_QPA_PLATFORM'] = 'offscreen'
+if not os.environ.get("DISPLAY") and not os.environ.get("QT_QPA_PLATFORM"):
+    os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
 # Lazy import PyQt5 to avoid crashes in headless environments during test collection
 QtWidgets = None
 LoginDialog = None
+
 
 def _ensure_pyqt5():
     """Lazily import and initialize PyQt5."""
@@ -16,27 +17,30 @@ def _ensure_pyqt5():
         return
     try:
         from PyQt5 import QtWidgets as _QtWidgets
+
         QtWidgets = _QtWidgets
         from gui_login import LoginDialog as _LoginDialog
+
         LoginDialog = _LoginDialog
     except Exception:
         pass
+
 
 # bring core components into a single entrypoint so tests and the
 # rest of the system can import from `main` to exercise the full app
 from auth import authenticate
 from crypto_utils import (
-    sha256_hash,
-    pad,
-    unpad,
-    aes_encrypt,
     aes_decrypt,
-    rsa_encrypt_key,
+    aes_encrypt,
+    pad,
     rsa_decrypt_key,
+    rsa_encrypt_key,
+    sha256_hash,
     sign_data,
+    unpad,
     verify_signature,
 )
-from data_store import USERS, PRIVATE_KEYS, PATIENT_RECORDS, AUDIT_LOG
+from data_store import AUDIT_LOG, PATIENT_RECORDS, PRIVATE_KEYS, USERS
 
 
 def main():
@@ -44,7 +48,7 @@ def main():
     if LoginDialog is None:
         print("Error: PyQt5 GUI not available")
         return
-    
+
     app = QtWidgets.QApplication(sys.argv)
 
     login = LoginDialog()
@@ -60,9 +64,7 @@ def main():
         return
 
     QtWidgets.QMessageBox.information(
-        None,
-        "Success",
-        f"Welcome {username} ({user['role']})"
+        None, "Success", f"Welcome {username} ({user['role']})"
     )
 
     sys.exit(app.exec_())
@@ -78,4 +80,3 @@ def run_auth_cli(username: str, password: str):
 
 if __name__ == "__main__":
     main()
-    

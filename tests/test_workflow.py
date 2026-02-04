@@ -13,8 +13,9 @@ This module tests that:
 import os
 import subprocess
 import sys
-import yaml
+
 import pytest
+import yaml
 
 
 class TestWorkflowConfiguration:
@@ -24,11 +25,7 @@ class TestWorkflowConfiguration:
     def workflow_file(self):
         """Load the GitHub Actions workflow YAML file."""
         workflow_path = os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            ".github",
-            "workflows",
-            "main.yml"
+            os.path.dirname(__file__), "..", ".github", "workflows", "main.yml"
         )
         with open(workflow_path, "r") as f:
             return yaml.safe_load(f)
@@ -36,11 +33,7 @@ class TestWorkflowConfiguration:
     def test_workflow_file_exists(self):
         """Verify the workflow file exists."""
         workflow_path = os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            ".github",
-            "workflows",
-            "main.yml"
+            os.path.dirname(__file__), "..", ".github", "workflows", "main.yml"
         )
         assert os.path.exists(workflow_path), "Workflow file should exist"
 
@@ -59,7 +52,9 @@ class TestWorkflowConfiguration:
         trigger_key = "on" if "on" in workflow_file else True
         assert trigger_key in workflow_file, "Workflow should have triggers"
         assert "push" in workflow_file[trigger_key], "Workflow should trigger on push"
-        assert "pull_request" in workflow_file[trigger_key], "Workflow should trigger on pull_request"
+        assert (
+            "pull_request" in workflow_file[trigger_key]
+        ), "Workflow should trigger on pull_request"
 
     def test_push_branches(self, workflow_file):
         """Verify push trigger includes main and develop branches."""
@@ -126,9 +121,13 @@ class TestWorkflowConfiguration:
     def test_dependencies_installation_step(self, workflow_file):
         """Verify dependencies are installed in the test job."""
         test_job = workflow_file["jobs"]["test"]
-        install_steps = [s for s in test_job["steps"] if "Install dependencies" in str(s.get("name", ""))]
+        install_steps = [
+            s
+            for s in test_job["steps"]
+            if "Install dependencies" in str(s.get("name", ""))
+        ]
         assert len(install_steps) > 0, "Test job should install dependencies"
-        
+
         install_step = install_steps[0]
         run_command = install_step["run"]
         assert "pip" in run_command, "Should use pip to install dependencies"
@@ -173,12 +172,16 @@ class TestWorkflowConfiguration:
     def test_lint_includes_flake8(self, workflow_file):
         """Verify lint job includes flake8 linting."""
         lint_job = workflow_file["jobs"]["lint"]
-        flake8_steps = [s for s in lint_job["steps"] if "flake8" in str(s.get("run", ""))]
+        flake8_steps = [
+            s for s in lint_job["steps"] if "flake8" in str(s.get("run", ""))
+        ]
         assert len(flake8_steps) > 0, "Lint job should lint code with flake8"
 
     def test_security_job_exists(self, workflow_file):
         """Verify the 'security' job exists."""
-        assert "security" in workflow_file["jobs"], "Workflow should have a security job"
+        assert (
+            "security" in workflow_file["jobs"]
+        ), "Workflow should have a security job"
 
     def test_security_job_configuration(self, workflow_file):
         """Verify the security job is properly configured."""
@@ -190,7 +193,9 @@ class TestWorkflowConfiguration:
     def test_security_includes_bandit(self, workflow_file):
         """Verify security job includes bandit security scanning."""
         security_job = workflow_file["jobs"]["security"]
-        bandit_steps = [s for s in security_job["steps"] if "bandit" in str(s.get("run", ""))]
+        bandit_steps = [
+            s for s in security_job["steps"] if "bandit" in str(s.get("run", ""))
+        ]
         assert len(bandit_steps) > 0, "Security job should run bandit security scan"
 
 
@@ -206,9 +211,7 @@ class TestWorkflowExecution:
     def test_pip_available(self):
         """Verify pip is available."""
         result = subprocess.run(
-            [sys.executable, "-m", "pip", "--version"],
-            capture_output=True,
-            text=True
+            [sys.executable, "-m", "pip", "--version"], capture_output=True, text=True
         )
         assert result.returncode == 0, "pip should be available"
 
@@ -219,7 +222,7 @@ class TestWorkflowExecution:
             result = subprocess.run(
                 [sys.executable, "-m", "pip", "show", package],
                 capture_output=True,
-                text=True
+                text=True,
             )
             # We only check if the command succeeds, package might not be installed
             # but the command format is valid
@@ -231,11 +234,12 @@ class TestWorkflowExecution:
             [sys.executable, "-m", "pytest", "--collect-only", "tests/"],
             capture_output=True,
             text=True,
-            cwd=os.path.join(os.path.dirname(__file__), "..")
+            cwd=os.path.join(os.path.dirname(__file__), ".."),
         )
         # pytest --collect-only should return 0 if it can find tests
-        assert result.returncode == 0 or "test session starts" in result.stdout, \
-            "pytest should be able to discover tests"
+        assert (
+            result.returncode == 0 or "test session starts" in result.stdout
+        ), "pytest should be able to discover tests"
 
 
 class TestWorkflowSecurityAndBestPractices:
@@ -245,11 +249,7 @@ class TestWorkflowSecurityAndBestPractices:
     def workflow_file(self):
         """Load the GitHub Actions workflow YAML file."""
         workflow_path = os.path.join(
-            os.path.dirname(__file__),
-            "..",
-            ".github",
-            "workflows",
-            "main.yml"
+            os.path.dirname(__file__), "..", ".github", "workflows", "main.yml"
         )
         with open(workflow_path, "r") as f:
             return yaml.safe_load(f)
@@ -268,9 +268,13 @@ class TestWorkflowSecurityAndBestPractices:
     def test_test_job_has_pip_upgrade(self, workflow_file):
         """Verify pip is upgraded before installation."""
         test_job = workflow_file["jobs"]["test"]
-        install_steps = [s for s in test_job["steps"] if "Install dependencies" in str(s.get("name", ""))]
+        install_steps = [
+            s
+            for s in test_job["steps"]
+            if "Install dependencies" in str(s.get("name", ""))
+        ]
         assert len(install_steps) > 0
-        
+
         install_step = install_steps[0]
         run_command = install_step["run"]
         assert "pip install --upgrade pip" in run_command, "pip should be upgraded"
@@ -284,21 +288,29 @@ class TestWorkflowSecurityAndBestPractices:
     def test_security_python_version_specified(self, workflow_file):
         """Verify security job specifies a Python version."""
         security_job = workflow_file["jobs"]["security"]
-        setup_steps = [s for s in security_job["steps"] if "actions/setup-python" in str(s)]
+        setup_steps = [
+            s for s in security_job["steps"] if "actions/setup-python" in str(s)
+        ]
         assert len(setup_steps) > 0, "Security job should specify Python version"
 
     def test_codecov_upload_configured(self, workflow_file):
         """Verify codecov upload is configured."""
         test_job = workflow_file["jobs"]["test"]
-        codecov_steps = [s for s in test_job["steps"] if "codecov" in str(s.get("uses", ""))]
+        codecov_steps = [
+            s for s in test_job["steps"] if "codecov" in str(s.get("uses", ""))
+        ]
         assert len(codecov_steps) > 0, "Test job should upload to codecov"
 
     def test_bandit_security_scan_non_blocking(self, workflow_file):
         """Verify bandit security scan doesn't block the workflow."""
         security_job = workflow_file["jobs"]["security"]
-        bandit_steps = [s for s in security_job["steps"] if s.get("name") and "bandit" in s.get("name", "")]
+        bandit_steps = [
+            s
+            for s in security_job["steps"]
+            if s.get("name") and "bandit" in s.get("name", "")
+        ]
         assert len(bandit_steps) > 0
-        
+
         # The command should have || true to not fail the job
         bandit_step = bandit_steps[0]
         run_command = bandit_step["run"]
