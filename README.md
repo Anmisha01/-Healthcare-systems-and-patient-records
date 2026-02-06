@@ -3,6 +3,7 @@ Small example project demonstrating simple authentication, symmetric/asymmetric 
 
 ### you need to add proper introduciton of your applicaiton 
 ### Learning Objectives 
+### folder and files structure 
 
 **Quick summary**
 - Python project using PyCryptodome and PyQt5 for a tiny demonstrator of crypto primitives and a login dialog.
