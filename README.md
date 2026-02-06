@@ -1,5 +1,9 @@
 # Healthcate System and Patient Records
 Small example project demonstrating simple authentication, symmetric/asymmetric crypto helpers, and a PyQt5 login UI.
+
+### you need to add proper introduciton of your applicaiton 
+### Learning Objectives 
+
 **Quick summary**
 - Python project using PyCryptodome and PyQt5 for a tiny demonstrator of crypto primitives and a login dialog.
 **Prerequisites**
