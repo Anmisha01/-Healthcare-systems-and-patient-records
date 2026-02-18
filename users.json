@@ -1,0 +1,8 @@
+{
+  "kumar": {
+    "password_hash": "abJttRFvwTlU2wKrdhLYZeFYvVuLd1+kr852CE2lfP8=",
+    "salt": "KrMvHmvA7toETsw5Rd8peQ==",
+    "role": "doctor",
+    "created_at": "2026-02-18T10:00:35.313473"
+  }
+}

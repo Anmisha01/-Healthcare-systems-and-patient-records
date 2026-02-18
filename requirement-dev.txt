@@ -1,0 +1,16 @@
+# Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+coverage==7.3.2
+
+# Linting
+flake8==6.1.0
+pylint==3.0.2
+black==23.11.0
+
+# Security
+bandit==1.7.5
+safety==2.3.5
+
+# Type checking
+mypy==1.7.1
