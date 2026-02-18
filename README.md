@@ -182,7 +182,7 @@ ls -la *.json
 chmod 644 users.json patient_records.json
 ```
 
-## 🧪 Testing
+## Testing
 
 Run the included tests:
 
