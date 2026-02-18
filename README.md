@@ -1,63 +1,15 @@
-# 🏥 Healthcare System - Secure Patient Records Management
-
-A complete, production-ready healthcare management system with **military-grade encryption**, robust authentication, and a modern PyQt5 interface.
-
-## Features
-
-- **Secure Authentication**: PBKDF2HMAC password hashing with 100,000 iterations
-- **End-to-End Encryption**: AES-256-GCM for all patient data at rest
-- **Session Management**: Token-based authentication with 8-hour expiration
-- **Multi-Role Support**: Doctor, Nurse, and Admin roles
-- **Patient Management**: Complete CRUD operations with encrypted storage
-- **Search Functionality**: Fast patient search by name
-- **Visit Tracking**: Track patient visits, diagnoses, and prescriptions
-- **Modern UI**: Clean, professional PyQt5 interface
-- **HIPAA Compliant**: All sensitive data encrypted at rest
-
-## Quick Start
-
-### Prerequisites
-
-- Python 3.8 or higher
-- pip package manager
-
-### Installation
-
-#### On Arch Linux:
-
-```bash
-# Install system packages
-sudo pacman -S python python-pip python-pyqt5
-
-# Navigate to project directory
-cd /path/to/healthcare_system
-
-# Install Python dependencies
-pip install -r requirements.txt --break-system-packages
-# OR use a virtual environment (recommended):
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-#### On Ubuntu/Debian:
-
-```bash
-sudo apt update
-sudo apt install python3 python3-pip python3-pyqt5
-
-pip install -r requirements.txt
-```
-
-#### On macOS:
-
-```bash
-brew install python3
-pip3 install -r requirements.txt
-```
-
-#### On Windows:
-
+# Healthcate System and Patient Records
+Small example project demonstrating simple authentication, symmetric/asymmetric crypto helpers, and a PyQt5 login UI.
+**Quick summary**
+- Python project using PyCryptodome and PyQt5 for a tiny demonstrator of crypto primitives and a login dialog.
+**Prerequisites**
+- Python 3.8+
+- pip
+**Recommended packages**
+- PyQt5
+- pycryptodome
+- pytest (for running tests)
+Install dependencies:
 ```bash
 # Install Python from python.org
 pip install -r requirements.txt
@@ -82,7 +34,7 @@ python main.py
 5. **Login** with your credentials
 6. **Start managing patients!**
 
-## 🔧 Usage Guide
+## Usage Guide
 
 ### Adding a Patient
 
